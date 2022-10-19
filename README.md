@@ -1,5 +1,7 @@
 # VBA-MessageBox
-A custom message box that allows any label on up to 5 buttons
+A custom message box that allows up to 5 buttons with custom labels.
+
+![image](https://user-images.githubusercontent.com/23198997/196816620-2d98b7a3-edbb-4ded-a43a-26bd211041f0.png)
 
 Extra abilities provided by ```MessageBox``` that the built-in ```MsgBox``` method does not provide:
 1. Can display up to 5 buttons with custom labels and will return the label of the selected button
@@ -10,12 +12,20 @@ Extra abilities provided by ```MessageBox``` that the built-in ```MsgBox``` meth
 Note that Cancel is allowed via the form's X button or via the Esc key if the form displays a single button or 'Cancel' is one of the button labels.
 
 ## Implementation
-The class ```MessageBox``` has a global instance (```Attribute VB_PredeclaredId = True```) and a default member (```Show```) so that it can be called like:  
+The class ```MessageBox``` creates an instance of the ```MessageForm``` userform and then adds all the necessary controls at runtime. It only exposes the ```Show``` method which allows the user to pass:
+- the text for prompt
+- the title
+- the icon enum which corresponds to one of the 4 available icons
+- the label(s) for up to 5 buttons
+- the index of the default button
+
+To remove the need for creating new instances, the class ```MessageBox``` has a global instance (```Attribute VB_PredeclaredId = True```). The exposed ```Show``` method is marked as a default member. It can be called like:  
 ```VBA
 Debug.Print MessageBox("Test", "Title", icoInformation, "Button1", "Button2")
 ```
+New instances of the ```MessageBox``` class can still be created but the approach used (global instance with default member) is more convenient.
 
-## Use
+The 4 icons (Critical, Exclamation, Information and Question) are the same as in the original ```MsgBox``` and they are saved in the ```Picture``` property of 4 labels situated on the ```MessageForm``` userform. The form only raises the ```QueryClose``` event. There is no other code within the form.
 
 ## Installation
 Please avoid copy-pasting code. Either clone the repository or download the [zip](https://github.com/cristianbuse/VBA-MessageBox/archive/refs/heads/master.zip) and proceed importing the modules from there.
@@ -29,6 +39,11 @@ Import the following code module from the [demo folder](https://github.com/crist
 * [Demo.bas](https://github.com/cristianbuse/VBA-MessageBox/blob/master/src/Demo/Demo.bas) - run ```DemoMain```
 
 There is also a Demo Workbook available for download.
+
+Screenshot examples:  
+![image](https://user-images.githubusercontent.com/23198997/196816925-fc66a5f3-3b27-4d31-b321-8e4bacecb91d.png)
+
+![image](https://user-images.githubusercontent.com/23198997/196816940-d8ab3984-ff39-4f50-bb45-79a541c4eb66.png)
 
 ## License
 MIT License
