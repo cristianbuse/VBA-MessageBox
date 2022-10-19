@@ -22,5 +22,4 @@ Public Sub DemoMain()
         s = s & lineText & vbNewLine
     Next i
     MessageBox.Show s 'Displays vertical scroll bar
-    MessageBox.Show String(100, "B") & s 'Displays both vertical and horizontal scroll bars
 End Sub
