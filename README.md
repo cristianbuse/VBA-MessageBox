@@ -6,7 +6,7 @@ A custom message box that allows up to 5 buttons with custom labels.
 Extra abilities provided by ```MessageBox``` that the built-in ```MsgBox``` method does not provide:
 1. Can display up to 5 buttons with custom labels and will return the label of the selected button
 2. Displays a vertical scroll bar when the text is too large
-3. The main text prompt can be copied from the locked MsForms.TextBox
+3. The main text prompt can be selected and copied (displayed in a locked textbox within the form)
 4. The buttons get automatically resized and positioned based on how many buttons are displayed and how long their labels are 
 
 Note that Cancel is allowed via the form's X button or via the Esc key if the form displays a single button or 'Cancel' is one of the button labels.
