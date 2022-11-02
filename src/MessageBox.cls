@@ -58,7 +58,7 @@ End Enum
 
 Private WithEvents m_form As MessageForm
 Attribute m_form.VB_VarHelpID = -1
-Private m_allowCancel As Boolean
+Private m_allowClose As Boolean
 Private m_result As String
 
 'Controls
@@ -166,7 +166,7 @@ Private Sub m_escButton_Click()
     OnCancel
 End Sub
 Private Sub OnCancel()
-    If Not m_allowCancel Then Exit Sub
+    If Not m_allowClose Then Exit Sub
     m_form.Hide
 End Sub
 Private Sub m_button1_Click()
@@ -214,17 +214,16 @@ Private Property Let Buttons(ByRef btnNames As Variant)
     Dim i As Long, j As Long
     Dim v As Variant
     '
-    m_allowCancel = False
     On Error Resume Next 'Ignore duplicates
     For Each v In btnNames
         If LenB(v) > 0 Then
             collButtonNames.Add v, v
-            If StrComp(v, "Cancel", vbTextCompare) = 0 Then m_allowCancel = True
+            If StrComp(v, "Cancel", vbTextCompare) = 0 Then m_allowClose = True
         End If
     Next v
     On Error GoTo 0
     If collButtonNames.Count = 0 Then collButtonNames.Add "OK"
-    If collButtonNames.Count = 1 Then m_allowCancel = True
+    If collButtonNames.Count = 1 Then m_allowClose = True
     '
     i = LBound(m_buttons)
     For Each v In collButtonNames
@@ -391,12 +390,14 @@ Public Function Show(ByVal promptText As String _
                    , Optional ByVal button3 As String _
                    , Optional ByVal button4 As String _
                    , Optional ByVal button5 As String _
-                   , Optional ByVal defaultButton As Long = 1) As String
+                   , Optional ByVal defaultButton As Long = 1 _
+                   , Optional ByVal allowClose As Boolean = False) As String
 Attribute Show.VB_UserMemId = 0
 'Attribute Show.VB_UserMemId = 0
     If LenB(titleText) = 0 Then titleText = Application.Name
     m_form.Caption = titleText
     Icon = ico
+    m_allowClose = allowClose
     Buttons = Array(button1, button2, button3, button4, button5)
     If defaultButton < 1 Then defaultButton = 1
     If defaultButton > m_visibleButtons Then defaultButton = 1
