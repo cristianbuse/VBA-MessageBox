@@ -80,14 +80,6 @@ Attribute m_button5.VB_VarHelpID = -1
 Private m_buttons(1 To MAX_BUTTONS) As MSForms.CommandButton
 Private m_visibleButtons As Long
 
-'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-'Class events
-'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Private Sub Class_Initialize()
-    Set m_form = New MessageForm
-    BuildForm
-End Sub
-
 '*******************************************************************************
 'Builds the necessary controls and alignment at runtime
 '*******************************************************************************
@@ -395,6 +387,11 @@ Public Function Show(ByVal promptText As String _
 Attribute Show.VB_UserMemId = 0
 'Attribute Show.VB_UserMemId = 0
     If LenB(titleText) = 0 Then titleText = Application.Name
+    If Not IsFormConnected(m_form) Then
+        Set m_form = New MessageForm
+        BuildForm
+    End If
+    '
     m_form.Caption = titleText
     Icon = ico
     m_allowClose = allowClose
@@ -417,4 +414,9 @@ Attribute Show.VB_UserMemId = 0
     m_result = vbNullString
     m_form.Show vbModal
     Show = m_result
+End Function
+Private Function IsFormConnected(ByVal obj As Object) As Boolean
+    If Not obj Is Nothing Then
+        IsFormConnected = TypeName(obj) <> "UserForm"
+    End If
 End Function
