@@ -271,11 +271,12 @@ Private Sub Refresh()
         If .Height > MAX_HEIGHT Then
             .Height = MAX_HEIGHT
             .Width = Min(.Width + SCROLL_WIDTH, MAX_WIDTH)
+            m_prompt.ScrollBars = fmScrollBarsVertical
+        Else
+            m_prompt.ScrollBars = fmScrollBarsNone
         End If
         .SetFocus
         m_prompt.SelStart = 0
-        m_prompt.ScrollBars = fmScrollBarsNone
-        m_prompt.ScrollBars = fmScrollBarsVertical
         deltaWidth = .Width - deltaWidth
         .Top = SIDE_VALUE
         If .Height < CCtrl(m_icon).Height Then
@@ -412,7 +413,14 @@ Attribute Show.VB_UserMemId = 0
     On Error GoTo 0
     '
     m_result = vbNullString
+#If MOUSE_SCROLL_ENABLED Then
+    'https://github.com/cristianbuse/VBA-UserForm-MouseScroll
+    EnableMouseScroll m_form
+#End If
     m_form.Show vbModal
+#If MOUSE_SCROLL_ENABLED Then
+    DisableMouseScroll m_form
+#End If
     Show = m_result
 End Function
 Private Function IsFormConnected(ByVal obj As Object) As Boolean
