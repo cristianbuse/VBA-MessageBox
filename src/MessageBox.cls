@@ -415,11 +415,15 @@ Attribute Show.VB_UserMemId = 0
     m_result = vbNullString
 #If MOUSE_SCROLL_ENABLED Then
     'https://github.com/cristianbuse/VBA-UserForm-MouseScroll
-    EnableMouseScroll m_form
+    If m_prompt.ScrollBars <> fmScrollBarsNone Then
+        EnableMouseScroll m_form
+    End If
 #End If
     m_form.Show vbModal
 #If MOUSE_SCROLL_ENABLED Then
-    DisableMouseScroll m_form
+    If m_prompt.ScrollBars <> fmScrollBarsNone Then
+        DisableMouseScroll m_form
+    End If
 #End If
     Show = m_result
 End Function
